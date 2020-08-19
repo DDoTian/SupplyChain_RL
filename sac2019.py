@@ -13,7 +13,7 @@ class SACAgent:
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.env = env
-        self.action_range = [0, 320]
+        self.action_range = [0, 250]
         self.obs_dim = env.state_dim
         self.action_dim = env.action_dim
 
