@@ -13,7 +13,7 @@ k_pr = [60]
 k_st = [[8],[8,10]]
 k_pe = [40,40]
 k_tr = [[80,150]]
-lead_time = [[1,1]]
+lead_time = [[2,2]]
 st_max = [[100000],[20000,10000]]
 de_hist_len = 4
 zeta = 5
@@ -23,18 +23,18 @@ env = SupplyChainEnv(con_mat, price, k_pr, k_st, k_pe, k_tr, lead_time, st_max, 
 
 # SAC Parameters
 tau = 0.005
-gamma = 0.99
-alpha = 0.0001
-a_lr = 0.002
-q_lr = 0.002
-p_lr = 0.002
+gamma = 0.9
+alpha = 0.000001
+a_lr = 0.0005
+q_lr = 0.0005
+p_lr = 0.0005
 buffer_maxlen = 1000
 
 # SAC Agent
 agent = SACAgent(env, gamma, tau, alpha, q_lr, p_lr, a_lr, buffer_maxlen)
 
 # Training Parameters
-max_episodes = 1000
+max_episodes = 2000
 max_steps = 50
 batch_size = 32
 
@@ -45,19 +45,19 @@ episode_rewards = []
 
 for j in range(max_episodes):
     # Reset
-    state = env.reset([0], [100, 100])
+    state = env.reset([0], [500, 500])
     episode_reward = 0
 
     # Demand profile
     d1 = []
     d2 = []
-    d1_max = random.uniform(100, 130)
-    d2_max = random.uniform(100, 130)
+    d1_max = random.uniform(150, 200)
+    d2_max = random.uniform(150, 200)
     for k in range(max_steps):
-        # d1_temp = d1_max / 2 * math.sin(2 * pi * k / 12) + d1_max / 2 + random.uniform(0, 2)
-        # d2_temp = - d2_max / 2 * math.sin(2 * pi * k / 8) + d2_max / 2 + random.uniform(0, 2)
-        d1_temp = d1_max/2 * math.exp(-k/10) + d1_max/2 + random.uniform(0, 10)
-        d2_temp = d2_max/2 * math.exp(-k/10) + d2_max/2 + random.uniform(0, 10)
+        d1_temp = d1_max / 2 * math.sin(2 * pi * k / 12) + d1_max / 2 + random.uniform(0, 2)
+        d2_temp = - d2_max / 2 * math.sin(2 * pi * k / 8) + d2_max / 2 + random.uniform(0, 2)
+        # d1_temp = d1_max/2 * math.exp(-k/10) + d1_max/2 + random.uniform(0, 10)
+        # d2_temp = d2_max/2 * math.exp(-k/10) + d2_max/2 + random.uniform(0, 10)
         d1.append(round(d1_temp))
         d2.append(round(d2_temp))
 
