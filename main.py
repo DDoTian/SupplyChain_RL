@@ -24,17 +24,17 @@ env = SupplyChainEnv(con_mat, price, k_pr, k_st, k_pe, k_tr, lead_time, st_max, 
 # SAC Parameters
 tau = 0.005
 gamma = 0.99
-alpha = 0.000001
-a_lr = 0.001
-q_lr = 0.001
-p_lr = 0.001
+alpha = 0.0001
+a_lr = 0.002
+q_lr = 0.002
+p_lr = 0.002
 buffer_maxlen = 1000
 
 # SAC Agent
 agent = SACAgent(env, gamma, tau, alpha, q_lr, p_lr, a_lr, buffer_maxlen)
 
 # Training Parameters
-max_episodes = 500
+max_episodes = 1000
 max_steps = 50
 batch_size = 32
 
