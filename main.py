@@ -13,8 +13,8 @@ k_pr = [60]
 k_st = [[8],[8,10]]
 k_pe = [40,40]
 k_tr = [[80,150]]
-lead_time = [[2,2]]
-st_max = [[100000],[20000,10000]]
+lead_time = [[0,0]]
+st_max = [[600],[500,500]]
 de_hist_len = 4
 zeta = 5
 
@@ -22,21 +22,29 @@ zeta = 5
 env = SupplyChainEnv(con_mat, price, k_pr, k_st, k_pe, k_tr, lead_time, st_max, de_hist_len, zeta)
 
 # SAC Parameters
+# tau = 0.005
+# gamma = 0.9
+# alpha = 0.000001
+# a_lr = 0.00005
+# q_lr = 0.00005
+# p_lr = 0.00005
+# buffer_maxlen = 1000
+
 tau = 0.005
 gamma = 0.9
 alpha = 0.000001
-a_lr = 0.0005
-q_lr = 0.0005
-p_lr = 0.0005
-buffer_maxlen = 1000
+a_lr = 0.000005
+q_lr = 0.00005
+p_lr = 0.00005
+buffer_maxlen = 2000
 
 # SAC Agent
 agent = SACAgent(env, gamma, tau, alpha, q_lr, p_lr, a_lr, buffer_maxlen)
 
 # Training Parameters
-max_episodes = 2000
+max_episodes = 1000
 max_steps = 50
-batch_size = 32
+batch_size = 10
 
 # Other Parameters
 pi = 3.1415926
@@ -45,14 +53,14 @@ episode_rewards = []
 
 for j in range(max_episodes):
     # Reset
-    state = env.reset([0], [500, 500])
+    state = env.reset([0], [300, 300])
     episode_reward = 0
 
     # Demand profile
     d1 = []
     d2 = []
-    d1_max = random.uniform(150, 200)
-    d2_max = random.uniform(150, 200)
+    d1_max = random.uniform(150, 180)
+    d2_max = random.uniform(150, 180)
     for k in range(max_steps):
         d1_temp = d1_max / 2 * math.sin(2 * pi * k / 12) + d1_max / 2 + random.uniform(0, 2)
         d2_temp = - d2_max / 2 * math.sin(2 * pi * k / 8) + d2_max / 2 + random.uniform(0, 2)
@@ -90,9 +98,9 @@ for j in range(max_episodes):
         state = next_state
 
 # Save RL Model
-#PATH = "C:\\Users\\tiand\\Desktop\\RL research with SLB\\RL_Simulations\\Saved_model\\SAC_model_lead_time3"
-#torch.save(agent, PATH)
-
+# PATH = "C:\\Users\\tiand\\Desktop\\RL research with SLB\\RL_Simulations\\Saved_model\\SAC_model"
+# torch.save(agent, PATH)
+# np.savetxt('epi_rewards_new.dat', episode_rewards)
 
 plt.figure(1)
 plt.plot(np.arange(len(episode_rewards)), episode_rewards)

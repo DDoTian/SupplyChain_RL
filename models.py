@@ -6,7 +6,7 @@ from torch.distributions import Normal
 
 class ValueNetwork(nn.Module):
 
-    def __init__(self, input_dim, output_dim, hidden_size=256, init_w=3e-3):
+    def __init__(self, input_dim, output_dim, hidden_size=512, init_w=3e-3):
         super(ValueNetwork, self).__init__()
         self.fc1 = nn.Linear(input_dim, hidden_size)
         self.fc2 = nn.Linear(hidden_size, hidden_size)
@@ -25,7 +25,7 @@ class ValueNetwork(nn.Module):
 
 class SoftQNetwork(nn.Module):
     
-    def __init__(self, num_inputs, num_actions, hidden_size=256, init_w=3e-3):
+    def __init__(self, num_inputs, num_actions, hidden_size=512, init_w=3e-3):
         super(SoftQNetwork, self).__init__()
         self.linear1 = nn.Linear(num_inputs + num_actions, hidden_size)
         self.linear2 = nn.Linear(hidden_size, hidden_size)
@@ -44,7 +44,7 @@ class SoftQNetwork(nn.Module):
 
 class PolicyNetwork(nn.Module):
     
-    def __init__(self, num_inputs, num_actions, hidden_size=256, init_w=3e-3, log_std_min=-20, log_std_max=2):
+    def __init__(self, num_inputs, num_actions, hidden_size=512, init_w=3e-3, log_std_min=-20, log_std_max=2):
         super(PolicyNetwork, self).__init__()
         self.log_std_min = log_std_min
         self.log_std_max = log_std_max
